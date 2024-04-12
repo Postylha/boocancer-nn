@@ -1,7 +1,6 @@
 from flask import Flask, request, jsonify
 from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing import image
-from azure.storage.blob import BlobServiceClient
 import numpy as np
 import base64
 from io import BytesIO
@@ -9,15 +8,6 @@ from PIL import Image
 import os
 
 app = Flask(__name__)
-
-
-# Function to download the model from Azure Blob Storage
-def download_model_blob(storage_connection_string, container_name, blob_name, local_file_name):
-    blob_service_client = BlobServiceClient.from_connection_string(storage_connection_string)
-    blob_client = blob_service_client.get_blob_client(container=container_name, blob=blob_name)
-    os.makedirs(os.path.dirname(local_file_name), exist_ok=True)
-    with open(local_file_name, "wb") as download_file:
-        download_file.write(blob_client.download_blob().readall())
 
 
 # Function to preprocess the image for your model
@@ -31,21 +21,8 @@ def preprocess_image(img, target_size=(224, 224)):
 
 
 # Define the path for the local model
-MODEL_LOCAL_PATH = '/tmp/model.h5'
+MODEL_LOCAL_PATH = '/mounted/model.h5'
 
-# Download and load the Keras model if it's not already present
-if not os.path.isfile(MODEL_LOCAL_PATH):
-    # Set these in your environment variables or Azure App Service Configuration
-    storage_connection_string = os.environ.get('AZURE_STORAGE_CONNECTION_STRING')
-    container_name = 'model'  # Replace with your actual container name
-    blob_name = os.environ.get('MODEL_BLOB_NAME')
-
-    if not storage_connection_string or not blob_name:
-        raise ValueError("Azure Storage connection string and blob name must be set in environment variables")
-
-    download_model_blob(storage_connection_string, container_name, blob_name, MODEL_LOCAL_PATH)
-
-# Load the trained model
 model = load_model(MODEL_LOCAL_PATH)
 
 
