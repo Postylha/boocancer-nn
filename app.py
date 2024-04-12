@@ -31,7 +31,7 @@ def preprocess_image(img, target_size=(224, 224)):
 
 
 # Define the path for the local model
-MODEL_LOCAL_PATH = 'model.h5'
+MODEL_LOCAL_PATH = '/tmp/model.h5'
 
 # Download and load the Keras model if it's not already present
 if not os.path.isfile(MODEL_LOCAL_PATH):
