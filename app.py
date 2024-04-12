@@ -37,7 +37,7 @@ MODEL_LOCAL_PATH = '/tmp/model.h5'
 if not os.path.isfile(MODEL_LOCAL_PATH):
     # Set these in your environment variables or Azure App Service Configuration
     storage_connection_string = os.environ.get('AZURE_STORAGE_CONNECTION_STRING')
-    container_name = 'cancerst'  # Replace with your actual container name
+    container_name = 'model'  # Replace with your actual container name
     blob_name = os.environ.get('MODEL_BLOB_NAME')
 
     if not storage_connection_string or not blob_name:
