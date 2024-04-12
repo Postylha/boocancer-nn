@@ -1,0 +1,6 @@
+Flask==3.0.1
+#numpy>=1.21.2  # updated to a version that supports Python 3.10
+#tensorflow>=2.8.0  # update to a version compatible with Python 3.10
+
+#Pillow>=8.2.0
+gunicorn==21.0.1
