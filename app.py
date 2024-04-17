@@ -41,15 +41,10 @@ def test():
     processed_image = preprocess_image(img)
 
     # Make a prediction
-    result = None
     prediction = model.predict(processed_image)
-    if prediction > 0.5:
-        result = 1
-    else:
-        result = 0
     
     # Return the prediction in JSON format
-    response_data = {'prediction': result}  # Convert numpy array to list for JSON serialization
+    response_data = {'prediction': prediction}  # Convert numpy array to list for JSON serialization
 
     return jsonify(response_data), 200
 
